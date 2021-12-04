@@ -26,7 +26,7 @@ export default ({password, userName: username}) =>
         },
       )
       .then(res => {
-        console.log(res.data);
+        console.log('login data', res.data);
         AsyncStorage.setItem('token', res.data.token);
         AsyncStorage.setItem('username', res.data.username);
         // dispatch({

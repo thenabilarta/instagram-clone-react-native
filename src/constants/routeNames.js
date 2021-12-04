@@ -6,3 +6,8 @@ export const LOGIN = 'Login';
 export const REGISTER = 'Register';
 export const HOME_NAVIGATOR = 'Home';
 export const LOGOUT = 'LOGOUT';
+
+export const DASHBOARD = 'DASHBOARD';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const MESSAGE = 'MESSAGE';
+export const CHAT = 'CHAT';
