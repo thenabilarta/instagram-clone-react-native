@@ -13,9 +13,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async config => {
-    // const token = await AsyncStorage.getItem('token');
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJ1c2VybmFtZSI6ImFkbWluIiwicHJvZmlsZVBpYyI6Imh0dHBzOi8vd3d3LmdyYXZhdGFyLmNvbS9hdmF0YXIvMTYzNzUwODc4Nz9kPWlkZW50aWNvbiIsInN0YXR1cyI6Im9rIiwiaXNMb2dnZWRJbiI6dHJ1ZSwiaWF0IjoxNjM4MDc3NDYzfQ.2K7Dk4ylN9LyL5B-AEdAS4D5qrqFhrFipZwSuiv1I5A';
+    const token = await AsyncStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

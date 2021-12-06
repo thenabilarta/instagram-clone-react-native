@@ -11,3 +11,4 @@ export const DASHBOARD = 'DASHBOARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const MESSAGE = 'MESSAGE';
 export const CHAT = 'CHAT';
+export const ADD_FEED = 'ADD_FEED';

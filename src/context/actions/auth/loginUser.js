@@ -1,20 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import {
   LOGIN_FAIL,
   LOGIN_LOADING,
   LOGIN_SUCCESS,
 } from '../../../constants/actionTypes';
-import axiosInstance from '../../../helpers/axiosInstance';
 
 export default ({password, userName: username}) =>
   dispatch => {
     dispatch({
       type: LOGIN_LOADING,
     });
-    console.log('ACTION', password, username);
-    axiosInstance
+    axios
       .post(
-        'api/users/login',
+        'https://instagram.thenabilarta.com/api/users/login',
         {
           password,
           username,
@@ -26,20 +25,32 @@ export default ({password, userName: username}) =>
         },
       )
       .then(res => {
-        console.log('login data', res.data);
-        AsyncStorage.setItem('token', res.data.token);
-        AsyncStorage.setItem('username', res.data.username);
-        // dispatch({
-        //   type: LOGIN_SUCCESS,
-        //   payload: res.data,
-        // });
+        if (res.status === 'Error') {
+          console.log('ERRRORR');
+          dispatch({
+            type: LOGIN_FAIL,
+            payload: err.response
+              ? err.response.data
+              : {error: 'Something went wrong, try agin'},
+          });
+        } else {
+          console.log('TESTESTSET');
+          console.log(res.data);
+          AsyncStorage.setItem('token', res.data.token);
+          AsyncStorage.setItem('username', res.data.username);
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data,
+          });
+        }
       })
       .catch(err => {
-        // dispatch({
-        //   type: LOGIN_FAIL,
-        //   payload: err.response
-        //     ? err.response.data
-        //     : {error: 'Something went wrong, try agin'},
-        // });
+        console.log('ERRRORR2');
+        dispatch({
+          type: LOGIN_FAIL,
+          payload: err.response
+            ? err.response.data
+            : {error: 'Something went wrong, try agin'},
+        });
       });
   };

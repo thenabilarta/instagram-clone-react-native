@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigator from './AuthNavigator';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -9,51 +9,57 @@ import SplashScreen from 'react-native-splash-screen';
 
 const AppNavContainer = () => {
   const {
-    authState: {loading},
-    // authState: {isLoggedIn},
+    // authState: {loading},
+    authState: {isLoggedIn},
   } = useContext(GlobalContext);
 
   // const [isAuthenticated, setIsAuthenticated] = React.useState(isLoggedIn);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [authLoaded, setAuthLoaded] = React.useState(false);
-
-  useEffect(() => {
-    console.log('HAHAHA');
-    if (loading) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [loading]);
-
-  // const getUser = async () => {
-  //   try {
-  //     const user = await AsyncStorage.getItem('token');
-  //     if (user) {
-  //       setAuthLoaded(true);
-
-  //       setIsAuthenticated(true);
-  //     } else {
-  //       setAuthLoaded(true);
-
-  //       setIsAuthenticated(false);
-  //     }
-  //   } catch (error) {}
-  // };
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoaded, setAuthLoaded] = useState(false);
 
   // useEffect(() => {
-  //   getUser();
+  //   console.log('HAHAHA', isLoggedIn);
+  //   if (isLoggedIn) {
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     setIsAuthenticated(false);
+  //   }
   // }, [isLoggedIn]);
+
+  const getUser = async () => {
+    try {
+      const user = await AsyncStorage.getItem('token');
+      if (user) {
+        setAuthLoaded(true);
+
+        setIsAuthenticated(true);
+      } else {
+        setAuthLoaded(true);
+
+        setIsAuthenticated(false);
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getUser();
+    console.log('isLoggedIn', isLoggedIn);
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   return (
-    <NavigationContainer>
-      {isAuthenticated ? <BottomTabNavigator /> : <AuthNavigator />}
-      {/* <AuthNavigator /> */}
-    </NavigationContainer>
+    <>
+      {authLoaded ? (
+        <NavigationContainer>
+          {isAuthenticated ? <BottomTabNavigator /> : <AuthNavigator />}
+        </NavigationContainer>
+      ) : (
+        <ActivityIndicator />
+      )}
+    </>
     // <>
     //   {authLoaded ? (
     //     <NavigationContainer>

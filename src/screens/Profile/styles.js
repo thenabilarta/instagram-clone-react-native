@@ -41,4 +41,8 @@ export default StyleSheet.create({
     width: 80,
     borderRadius: 40,
   },
+  feedImage: {
+    height: 100,
+    width: 100,
+  },
 });

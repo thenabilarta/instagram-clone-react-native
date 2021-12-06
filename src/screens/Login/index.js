@@ -15,13 +15,13 @@ import styles from './styles';
 const App = ({form, justSignedUp, onChange, onSubmit}) => {
   // const {navigate} = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const {
     authDispatch,
     authState: {error, loading},
   } = useContext(GlobalContext);
-
-  console.log(error, loading);
 
   return (
     <Container>
@@ -52,15 +52,21 @@ const App = ({form, justSignedUp, onChange, onSubmit}) => {
             />
           )} */}
 
-          {/* {error?.error && <Message danger onDismiss message={error?.error} />} */}
+          {error && (
+            <Message
+              danger
+              onDismiss
+              message={'Username or password is invalid'}
+            />
+          )}
 
           <Input
             label="Username"
             iconPosition="right"
             placeholder="Enter Username"
-            // value={form.userName || null}
+            value={username}
             onChangeText={value => {
-              onChange({name: 'userName', value});
+              setUsername(value);
             }}
           />
 
@@ -78,23 +84,21 @@ const App = ({form, justSignedUp, onChange, onSubmit}) => {
             }
             iconPosition="right"
             onChangeText={value => {
-              // onChange({name: 'password', value});
-              console.log(value);
+              setPassword(value);
             }}
           />
 
           <CustomButton
             // disabled={loading}
             onPress={() => {
-              console.log('pwaereawre');
               loginUser({
-                userName: 'admin',
-                password: '123123',
+                userName: username,
+                password: password,
               })(authDispatch);
             }}
             // loading={loading}
             primary
-            title={`Submit`}
+            title={`Submit `}
           />
 
           <View style={styles.createSection}>
